@@ -232,13 +232,37 @@ mod ranges_tests {
                 })
                 .product::<usize>()
         });
+        aggrs.insert("max", |a: &Vec<Grouped>| {
+            a.iter()
+                .map(|g| {
+                    let i: usize = g.val.try_into().unwrap();
+                    i
+                })
+                .max()
+                .unwrap()
+        });
+        aggrs.insert("min", |a: &Vec<Grouped>| {
+            a.iter()
+                .map(|g| {
+                    let i: usize = g.val.try_into().unwrap();
+                    i
+                })
+                .min()
+                .unwrap()
+        });
         aggrs.insert("len", |a| a.len());
-        let result = (1..=10)
+        let result = (1..=20)
             .map(|i| Grouped {
-                cat: if i % 2 == 0 { "Genap" } else { "Ganjil" },
+                cat: if i % 3 == 0 {
+                    "Tiga"
+                } else if i % 3 == 2 {
+                    "Dua"
+                } else {
+                    "Satu"
+                },
                 val: i,
             })
-            .group_by_aggr_clone(|g| g.cat, aggrs);
+            .group_by_aggr(|g| g.cat, aggrs);
         println!("Result : {:?}", result)
     }
 }
