@@ -1,2 +1,5 @@
-pub mod ranges;
-pub mod map;
+mod map;
+mod ranges;
+
+pub use map::*;
+pub use ranges::*;
